@@ -1,0 +1,13 @@
+<%- include('base', { 
+    body: `
+        <div class="instrucciones-content">
+            ${contenidoHtml}
+        </div>
+        
+        <script>
+        // Configurar variables del sidebar para instrucciones
+        window.MATERIA_ACTUAL = { nombre_materia: 'Instrucciones' };
+        window.UNIDADES_SIDEBAR = [];
+        </script>
+    `
+}) %>

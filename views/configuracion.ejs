@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración - Gestor de Cátedras</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <h3>Gestor de Cátedras</h3>
+                <a href="/" title="Volver al inicio" class="btn-config">🏠</a>
+            </div>
+        </header>
+        
+        <main class="app-content" style="grid-column: 1 / -1;">
+            <div class="app-content-inner">
+                <% if (typeof messages !== 'undefined' && messages.success) { %>
+                    <% if (Array.isArray(messages.success)) { %>
+                        <% messages.success.forEach(function(msg) { %>
+                            <div class="flash success"><%= msg %></div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="flash success"><%= messages.success %></div>
+                    <% } %>
+                <% } %>
+                
+                <% if (typeof messages !== 'undefined' && messages.error) { %>
+                    <% if (Array.isArray(messages.error)) { %>
+                        <% messages.error.forEach(function(msg) { %>
+                            <div class="flash error"><%= msg %></div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="flash error"><%= messages.error %></div>
+                    <% } %>
+                <% } %>
+                
+                <h1>Configuración de API</h1>
+                
+                <form method="POST" class="contenido-form">
+                    <div class="form-group">
+                        <label for="google_api_key">Google (Gemini) API Key:</label>
+                        <div class="api-key-wrapper">
+                            <input type="text" id="google_api_key" name="google_api_key" 
+                                   value="<%= config.google_api_key || '' %>">
+                            <button type="button" class="btn-verificar" 
+                                    data-servicio="Gemini" data-input="google_api_key">Verificar</button>
+                            <span class="status-indicator" id="status-Gemini"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="anthropic_api_key">Anthropic (Claude) API Key:</label>
+                        <div class="api-key-wrapper">
+                            <input type="text" id="anthropic_api_key" name="anthropic_api_key" 
+                                   value="<%= config.anthropic_api_key || '' %>">
+                            <button type="button" class="btn-verificar" 
+                                    data-servicio="Claude" data-input="anthropic_api_key">Verificar</button>
+                            <span class="status-indicator" id="status-Claude"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="openai_api_key">OpenAI (ChatGPT) API Key:</label>
+                        <div class="api-key-wrapper">
+                            <input type="text" id="openai_api_key" name="openai_api_key" 
+                                   value="<%= config.openai_api_key || '' %>">
+                            <button type="button" class="btn-verificar" 
+                                    data-servicio="OpenAI" data-input="openai_api_key">Verificar</button>
+                            <span class="status-indicator" id="status-OpenAI"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="deepseek_api_key">DeepSeek API Key:</label>
+                        <div class="api-key-wrapper">
+                            <input type="text" id="deepseek_api_key" name="deepseek_api_key" 
+                                   value="<%= config.deepseek_api_key || '' %>">
+                            <button type="button" class="btn-verificar" 
+                                    data-servicio="DeepSeek" data-input="deepseek_api_key">Verificar</button>
+                            <span class="status-indicator" id="status-DeepSeek"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn-crear">Guardar Claves</button>
+                        <a href="/" class="btn-volver">← Volver</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    
+    <script src="/js/app.js"></script>
+</body>
+</html>

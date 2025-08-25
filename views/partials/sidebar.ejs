@@ -1,0 +1,43 @@
+<% if (locals.materiaActual && locals.unidadesSidebar) { %>
+    <h4>Programa de <%= materiaActual.nombre_materia %></h4>
+    <hr>
+    <ul class="sidebar-menu">
+        <% unidadesSidebar.forEach(unidad => { %>
+            <li class="unidad-item" data-unidad-id="<%= unidad.id_unidad %>">
+                <div class="sidebar-item-header">
+                    <span class="editable" data-id="<%= unidad.id_unidad %>" data-tipo="unidad">
+                        <%= unidad.nombre_unidad %>
+                    </span>
+                    <div class="sidebar-acciones">
+                        <button class="btn-accion btn-agregar-item" title="Agregar Tema">+</button>
+                    </div>
+                </div>
+                <ul class="tema-menu">
+                    <% if (unidad.temas && unidad.temas.length > 0) { %>
+                        <% unidad.temas.forEach(tema => { %>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-content">
+                                    <a href="#" data-tema-id="<%= tema.id_tema %>" 
+                                        class="tema-link editable" 
+                                        data-id="<%= tema.id_tema %>" 
+                                        data-tipo="tema">
+                                        <%= tema.numero_tema ? tema.numero_tema + ' - ' : '' %><%= tema.titulo_tema %>
+                                    </a>
+                                </div>
+                                <div class="sidebar-acciones">
+                                    <button class="btn-accion btn-eliminar-item" 
+                                            data-id="<%= tema.id_tema %>" 
+                                            title="Eliminar Tema">×</button>
+                                </div>
+                            </li>
+                        <% }) %>
+                    <% } %>
+                </ul>
+            </li>
+        <% }) %>
+        
+        <% if (unidadesSidebar.length === 0) { %>
+            <li>No hay unidades para esta materia.</li>
+        <% } %>
+    </ul>
+<% } %>

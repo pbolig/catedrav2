@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../partials/head') %>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+</head>
+<body>
+    <%- include('../partials/header') %>
+    <main class="dashboard-container">
+        <h1><%= title %></h1>
+        <p>Introduce y verifica tus claves API para los servicios de IA.</p>
+        <%- include('../partials/messages') %>
+        <div class="card">
+            <form action="/app/configuracion" method="POST" class="configuracion-form">
+                
+                <div class="form-group api-key-input-container">
+                    <label for="google_api_key">Google API Key (Gemini)</label>
+                    <input type="password" id="google_api_key" name="GOOGLE_API_KEY" class="form-control" value="<%= locals.config && config.GOOGLE_API_KEY ? config.GOOGLE_API_KEY : '' %>">
+                    <i class="fas fa-eye toggle-password" data-target="google_api_key"></i>
+                </div>
+
+                <div class="form-group api-key-input-container">
+                    <label for="anthropic_api_key">Anthropic API Key (Claude)</label>
+                    <input type="password" id="anthropic_api_key" name="ANTHROPIC_API_KEY" class="form-control" value="<%= locals.config && config.ANTHROPIC_API_KEY ? config.ANTHROPIC_API_KEY : '' %>">
+                    <i class="fas fa-eye toggle-password" data-target="anthropic_api_key"></i>
+                </div>
+                
+                <div class="form-group api-key-input-container">
+                    <label for="openai_api_key">OpenAI API Key (GPT)</label>
+                    <input type="password" id="openai_api_key" name="OPENAI_API_KEY" class="form-control" value="<%= locals.config && config.OPENAI_API_KEY ? config.OPENAI_API_KEY : '' %>">
+                    <i class="fas fa-eye toggle-password" data-target="openai_api_key"></i>
+                </div>
+                
+                <div class="form-group api-key-input-container">
+                    <label for="deepseek_api_key">DeepSeek API Key</label>
+                    <input type="password" id="deepseek_api_key" name="DEEPSEEK_API_KEY" class="form-control" value="<%= locals.config && config.DEEPSEEK_API_KEY ? config.DEEPSEEK_API_KEY : '' %>">
+                    <i class="fas fa-eye toggle-password" data-target="deepseek_api_key"></i>
+                </div>
+
+                <button type="submit" class="btn-submit">Guardar Configuración</button>
+            </form>
+        </div>
+    </main>
+    <%- include('../partials/footer') %>
+    <script src="/js/app.js"></script> </body>
+</html>

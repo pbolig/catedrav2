@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso - Gestor de Cátedras</title>
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div id="login-container" class="form-container active">
+            <h2>Iniciar Sesión</h2>
+            <%- include('partials/messages') %>
+            <form action="/auth/login" method="POST">
+                <div class="form-group">
+                    <label for="login-email" class="form-label">Correo Electrónico</label>
+                    <input type="email" id="login-email" name="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password" class="form-label">Contraseña</label>
+                    <input type="password" id="login-password" name="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Entrar</button>
+            </form>
+            <div class="auth-switch">
+                <p>¿No tienes una cuenta? <a href="#" id="show-register">Regístrate</a></p>
+            </div>
+        </div>
+
+        <div id="register-container" class="form-container">
+            <h2>Crear Cuenta</h2>
+            <form action="/auth/register" method="POST">
+                <div class="form-group">
+                    <label for="register-email" class="form-label">Correo Electrónico</label>
+                    <input type="email" id="register-email" name="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password" class="form-label">Contraseña (mín. 6 caracteres)</label>
+                    <input type="password" id="register-password" name="password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-success">Crear Cuenta</button>
+            </form>
+            <div class="auth-switch">
+                <p>¿Ya tienes una cuenta? <a href="#" id="show-login">Inicia Sesión</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const loginContainer = document.getElementById('login-container');
+        const registerContainer = document.getElementById('register-container');
+        const showRegisterLink = document.getElementById('show-register');
+        const showLoginLink = document.getElementById('show-login');
+
+        // Evento para mostrar el formulario de registro
+        showRegisterLink.addEventListener('click', (e) => {
+            e.preventDefault(); // Evita que el enlace recargue la página
+            loginContainer.classList.remove('active');
+            registerContainer.classList.add('active');
+        });
+
+        // Evento para mostrar el formulario de login
+        showLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerContainer.classList.remove('active');
+            loginContainer.classList.add('active');
+        });
+    </script>
+    </body>
+</html>

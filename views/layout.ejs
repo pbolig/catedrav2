@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title || 'Gestor de Cátedras' %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <h3>Gestor de Cátedras</h3>
+                
+                <% if (typeof materias !== 'undefined' && typeof materiaActual !== 'undefined') { %>
+                <div class="materia-selector">
+                    <label for="materia-select">Materia:</label>
+                    <select id="materia-select" onchange="location = this.value;">
+                        <% materias.forEach(function(materia) { %>
+                            <option value="/materia/<%= materia.id_materia %>" 
+                                    <%= materia.id_materia === materiaActual.id_materia ? 'selected' : '' %>>
+                                <%= materia.nombre_materia %>
+                            </option>
+                        <% }); %>
+                    </select>
+                </div>
+                <% } %>
+                
+                <a href="/configuracion" title="Configuración" class="btn-config">⚙️</a>
+            </div>
+        </header>
+        
+        <% if (typeof showSidebar === 'undefined' || showSidebar !== false) { %>
+        <aside class="app-sidebar">
+            <% if (typeof materiaActual !== 'undefined' && typeof unidadesSidebar !== 'undefined') { %>
+                <h4>Programa de <%= materiaActual.nombre_materia %></h4>
+                <hr>
+                <ul class="sidebar-menu">
+                    <% unidadesSidebar.forEach(function(unidad) { %>
+                        <li class="unidad-item" data-unidad-id="<%= unidad.id %>">
+                            <div class="sidebar-item-header">
+                                <span class="editable" data-id="<%= unidad.id %>" data-tipo="unidad">
+                                    <%= unidad.nombre %>
+                                </span>
+                                <div class="sidebar-acciones">
+                                    <button class="btn-accion btn-agregar-item" title="Agregar Tema">+</button>
+                                </div>
+                            </div>
+                            <ul class="tema-menu">
+                                <% unidad.temas.forEach(function(tema) { %>
+                                    <li class="sidebar-item">
+                                        <div class="sidebar-item-content">
+                                            <a href="#" data-tema-id="<%= tema.id_tema %>" 
+                                               class="tema-link editable" 
+                                               data-id="<%= tema.id_tema %>" 
+                                               data-tipo="tema">
+                                                <%= tema.numero_tema %> - <%= tema.titulo_tema %>
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-acciones">
+                                            <button class="btn-accion btn-eliminar-item" 
+                                                    data-id="<%= tema.id_tema %>" 
+                                                    title="Eliminar Tema">×</button>
+                                        </div>
+                                    </li>
+                                <% }); %>
+                            </ul>
+                        </li>
+                    <% }); %>
+                    
+                    <% if (unidadesSidebar.length === 0) { %>
+                        <li>No hay unidades para esta materia.</li>
+                    <% } %>
+                </ul>
+            <% } %>
+        </aside>
+        <% } %>
+        
+        <main class="app-content">
+            <div class="app-content-inner">
+                <% if (typeof messages !== 'undefined' && messages.success) { %>
+                    <% if (Array.isArray(messages.success)) { %>
+                        <% messages.success.forEach(function(msg) { %>
+                            <div class="flash success"><%= msg %></div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="flash success"><%= messages.success %></div>
+                    <% } %>
+                <% } %>
+                
+                <% if (typeof messages !== 'undefined' && messages.error) { %>
+                    <% if (Array.isArray(messages.error)) { %>
+                        <% messages.error.forEach(function(msg) { %>
+                            <div class="flash error"><%= msg %></div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="flash error"><%= messages.error %></div>
+                    <% } %>
+                <% } %>
+                
+                <%- body %>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de progreso IA -->
+    <div id="ia-progress-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h3>Generando Contenido con IA</h3>
+            <p>Este proceso puede tardar varios minutos. Por favor, no cierres esta ventana.</p>
+            <div id="ia-progress-log" class="progress-log"></div>
+            <div id="ia-modal-footer" class="modal-footer" style="display: none;">
+                <button id="btn-cerrar-modal" class="btn-volver">Cerrar</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../partials/head') %>
+    <title><%= title %></title>
+</head>
+<body>
+    <%- include('../partials/header') %>
+    <main class="dashboard-container">
+        <h1>Panel de Control</h1>
+        <%- include('../partials/messages') %>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <h2>Mis Establecimientos</h2>
+                <% if (establecimientos && establecimientos.length > 0) { %>
+                    <% establecimientos.forEach(est => { %>
+                        <div class="establecimiento-item">
+                            <h3><%= est.nombre_establecimiento %></h3>
+                            
+                            <form class="asociar-materia-form" action="/app/asociar-materia" method="POST">
+                                <input type="hidden" name="id_establecimiento" value="<%= est.id_establecimiento %>">
+                                <select name="id_materia" required>
+                                    <option value="" disabled selected>-- Asociar materia --</option>
+                                    <% materiasGenerales.forEach(materia => { %>
+                                        <option value="<%= materia.id_materia %>"><%= materia.nombre_materia %></option>
+                                    <% }); %>
+                                </select>
+                                <button type="submit" class="btn-asociar">+</button>
+                            </form>
+                            
+                            <ul class="materias-asociadas">
+                                <% if (est.materiasAsociadas && est.materiasAsociadas.length > 0) { %>
+                                    <% est.materiasAsociadas.forEach(mat => { %>
+                                        <li class="materia-item">
+                                            <a href="/app/contenido/<%= mat.id_relacion %>"><%= mat.nombre_materia %></a>
+                                            <form action="/app/desasociar-materia/<%= mat.id_relacion %>" method="POST" onsubmit="return confirm('¿Seguro que quieres quitar esta materia del establecimiento?');">
+                                                <button type="submit" class="btn-eliminar-asociacion">×</button>
+                                            </form>
+                                        </li>
+                                    <% }); %>
+                                <% } else { %>
+                                    <li class="no-materias"><em>No hay materias asociadas.</em></li>
+                                <% } %>
+                            </ul>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p>No tienes establecimientos. <a href="/app/perfil">Añade uno en tu perfil</a> para empezar.</p>
+                <% } %>
+            </div>
+
+            <div class="card">
+                <h2>Crear Nueva Materia Global</h2>
+                <form class="nueva-materia-form" action="/app/materias" method="POST">
+                    <div class="form-group">
+                        <label for="nombre">Nombre de la materia</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Ej: Álgebra Lineal" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="codigo">Código</label>
+                        <input type="text" id="codigo" name="codigo" placeholder="Ej: MAT-101" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Crear Materia</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <%- include('../partials/footer') %>
+</body>
+</html>
